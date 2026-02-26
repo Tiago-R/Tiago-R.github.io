@@ -1,189 +1,243 @@
 <!doctype html>
 <html lang="pt-PT">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RSVP Admin</title>
-  <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css" />
-  <script src="https://kit.fontawesome.com/2828f7885a.js" crossorigin="anonymous"></script>
 
-  <style>
-    body { background: #0f0f14; }
-    .wrap { padding: 28px 14px; }
-    .cardish {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.14);
-      box-shadow: 0 18px 50px rgba(0,0,0,0.28);
-      border-radius: 18px;
-      padding: 18px;
-    }
-    .title, .label, .help, .table { color: rgba(255,255,255,.92); }
-    .help { color: rgba(255,255,255,.65); }
-    .input {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.18);
-      color: rgba(255,255,255,.92);
-    }
-    .input::placeholder { color: rgba(255,255,255,.45); }
-    .table thead th { color: rgba(255,255,255,.85); }
-    .table td, .table th { border-color: rgba(255,255,255,.10); }
-    .tag.is-yes { background: rgba(72,199,142,0.2); color: #dff7ec; border: 1px solid rgba(72,199,142,0.35); }
-    .tag.is-no  { background: rgba(241,70,104,0.2); color: #ffe2e8; border: 1px solid rgba(241,70,104,0.35); }
-    .muted { color: rgba(255,255,255,.65); }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
-    .table-container { overflow-x: auto; }
-  </style>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>RSVP Admin</title>
+	<link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css" />
+	<script src="https://kit.fontawesome.com/2828f7885a.js" crossorigin="anonymous"></script>
+
+	<style>
+		body {
+			background: #0f0f14;
+		}
+
+		.wrap {
+			padding: 28px 14px;
+		}
+
+		.cardish {
+			background: rgba(255, 255, 255, 0.06);
+			border: 1px solid rgba(255, 255, 255, 0.14);
+			box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+			border-radius: 18px;
+			padding: 18px;
+		}
+
+		.title,
+		.label,
+		.help,
+		.table {
+			color: rgba(255, 255, 255, .92);
+		}
+
+		.help {
+			color: rgba(255, 255, 255, .65);
+		}
+
+		.input {
+			background: rgba(255, 255, 255, 0.08);
+			border-color: rgba(255, 255, 255, 0.18);
+			color: rgba(255, 255, 255, .92);
+		}
+
+		.input::placeholder {
+			color: rgba(255, 255, 255, .45);
+		}
+
+		.table thead th {
+			color: rgba(255, 255, 255, .85);
+		}
+
+		.table td,
+		.table th {
+			border-color: rgba(255, 255, 255, .10);
+		}
+
+		.tag.is-yes {
+			background: rgba(72, 199, 142, 0.2);
+			color: #dff7ec;
+			border: 1px solid rgba(72, 199, 142, 0.35);
+		}
+
+		.tag.is-no {
+			background: rgba(241, 70, 104, 0.2);
+			color: #ffe2e8;
+			border: 1px solid rgba(241, 70, 104, 0.35);
+		}
+
+		.muted {
+			color: rgba(255, 255, 255, .65);
+		}
+
+		.mono {
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+		}
+
+		.table-container {
+			overflow-x: auto;
+		}
+	</style>
 </head>
 
 <body>
-  <section class="wrap">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-12 is-10-desktop">
+	<section class="wrap">
+		<div class="container">
+			<div class="columns is-centered">
+				<div class="column is-12 is-10-desktop">
 
-          <div class="cardish">
-            <h1 class="title is-4">RSVP Admin</h1>
-            <p class="help">
-              This page loads RSVPs from your Worker. Keep your admin token private.
-            </p>
+					<div class="cardish">
+						<h1 class="title is-4">RSVP Admin</h1>
+						<p class="help">
+							This page loads RSVPs from your Worker. Keep your admin token private.
+						</p>
 
-            <div class="columns is-variable is-3" style="margin-top: 12px;">
-              <div class="column is-7">
-                <div class="field">
-                  <label class="label">Admin token</label>
-                  <div class="control has-icons-left">
-                    <input id="token" class="input" type="password" placeholder="Paste token here (not stored)">
-                    <span class="icon is-small is-left"><i class="fas fa-key"></i></span>
-                  </div>
-                </div>
-              </div>
+						<div class="columns is-variable is-3" style="margin-top: 12px;">
+							<div class="column is-7">
+								<div class="field">
+									<label class="label">Admin token</label>
+									<div class="control has-icons-left">
+										<input id="token" class="input" type="password"
+											placeholder="Paste token here (not stored)">
+										<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
+									</div>
+								</div>
+							</div>
 
-              <div class="column is-5">
-                <div class="field">
-                  <label class="label">Actions</label>
-                  <div class="buttons">
-                    <button id="load" class="button is-link is-rounded">
-                      <span class="icon"><i class="fas fa-sync"></i></span>
-                      <span>Load</span>
-                    </button>
-                    <button id="export" class="button is-light is-rounded" disabled>
-                      <span class="icon"><i class="fas fa-file-csv"></i></span>
-                      <span>Export CSV</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+							<div class="column is-5">
+								<div class="field">
+									<label class="label">Actions</label>
+									<div class="buttons">
+										<button id="load" class="button is-link is-rounded">
+											<span class="icon"><i class="fas fa-sync"></i></span>
+											<span>Load</span>
+										</button>
+										<button id="export" class="button is-light is-rounded" disabled>
+											<span class="icon"><i class="fas fa-file-csv"></i></span>
+											<span>Export CSV</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
 
-            <p id="status" class="muted"></p>
+						<p id="status" class="muted"></p>
 
-            <div class="table-container" style="margin-top: 14px;">
-              <table class="table is-fullwidth is-hoverable">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>When</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Attending</th>
-                    <th>Guests</th>
-                    <th>Notes</th>
-                  </tr>
-                </thead>
-                <tbody id="rows"></tbody>
-              </table>
-            </div>
+						<div class="table-container" style="margin-top: 14px;">
+							<table class="table is-fullwidth is-hoverable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>When</th>
+										<th>Name</th>
+										<th>Email</th>
+										<th>Attending</th>
+										<th>Guests</th>
+										<th>Notes</th>
+									</tr>
+								</thead>
+								<tbody id="rows"></tbody>
+							</table>
+						</div>
 
-            <p class="help mono" style="margin-top: 10px;">
-              Tip: bookmark this page. If you lose the token, generate a new one and update the Worker secret.
-            </p>
-          </div>
+						<p class="help mono" style="margin-top: 10px;">
+							Tip: bookmark this page. If you lose the token, generate a new one and update the Worker
+							secret.
+						</p>
+					</div>
 
-        </div>
-      </div>
-    </div>
-  </section>
+				</div>
+			</div>
+		</div>
+	</section>
 
-  <script>
-    // Replace this with your deployed Worker URL:
-    // Example: https://rsvp-worker.yourname.workers.dev/admin/rsvps?limit=400
-    const API_ADMIN_URL = "https://wedding.tiagoalfredo-rocha.workers.dev/admin/rsvps?limit=400";
+	<script>
+		// Replace this with your deployed Worker URL:
+		// Example: https://rsvp-worker.yourname.workers.dev/admin/rsvps?limit=400
+		const API_ADMIN_URL = "https://wedding.tiagoalfredo-rocha.workers.dev/admin/rsvps?limit=400";
 
-    const tokenEl = document.getElementById("token");
-    const loadBtn = document.getElementById("load");
-    const exportBtn = document.getElementById("export");
-    const statusEl = document.getElementById("status");
-    const rowsEl = document.getElementById("rows");
+		const tokenEl = document.getElementById("token");
+		const loadBtn = document.getElementById("load");
+		const exportBtn = document.getElementById("export");
+		const statusEl = document.getElementById("status");
+		const rowsEl = document.getElementById("rows");
 
-    let lastResults = [];
+		let lastResults = [];
 
-    function esc(s) {
-      return String(s ?? "").replace(/[&<>"']/g, c => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-      }[c]));
-    }
+		function esc(s) {
+			return String(s ?? "").replace(/[&<>"']/g, c => ({
+				"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+			}[c]));
+		}
 
-    function toCsv(rows) {
-      const header = ["id","created_at","name","email","attending","guests","notes"];
-      const lines = [header.join(",")];
+		function toCsv(rows) {
+			const header = ["id", "created_at", "name", "email", "attending", "guests", "notes"];
+			const lines = [header.join(",")];
 
-      for (const r of rows) {
-        const vals = [
-          r.id,
-          r.created_at,
-          r.name,
-          r.email ?? "",
-          r.attending ? "yes" : "no",
-          r.guests,
-          (r.notes ?? "").replace(/\r?\n/g, " ")
-        ].map(v => {
-          const str = String(v ?? "");
-          return `"${str.replace(/"/g, '""')}"`;
-        });
-        lines.push(vals.join(","));
-      }
-      return lines.join("\n");
-    }
+			for (const r of rows) {
+				const vals = [
+					r.id,
+					r.created_at,
+					r.name,
+					r.email ?? "",
+					r.attending ? "yes" : "no",
+					r.guests,
+					(r.notes ?? "").replace(/\r?\n/g, " ")
+				].map(v => {
+					const str = String(v ?? "");
+					return `"${str.replace(/"/g, '""')}"`;
+				});
+				lines.push(vals.join(","));
+			}
+			return lines.join("\n");
+		}
 
-    function download(filename, text) {
-      const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
+		function download(filename, text) {
+			const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+			URL.revokeObjectURL(url);
+		}
 
-    async function loadRsvps() {
-      rowsEl.innerHTML = "";
-      statusEl.textContent = "Loading…";
-      exportBtn.disabled = true;
+		async function loadRsvps() {
+			rowsEl.innerHTML = "";
+			statusEl.textContent = "Loading…";
+			exportBtn.disabled = true;
 
-      const token = tokenEl.value.trim();
-      if (!token) {
-        statusEl.textContent = "Missing admin token.";
-        return;
-      }
+			const token = tokenEl.value.trim();
+			if (!token) {
+				statusEl.textContent = "Missing admin token.";
+				return;
+			}
 
-      const res = await fetch(API_ADMIN_URL, {
-        headers: { "Authorization": `Bearer ${token}` }
-      });
+			let res;
+			try {
+				res = await fetch(API_ADMIN_URL, {
+					headers: { "Authorization": `Bearer ${token}` }
+				});
+			} catch (e) {
+				statusEl.textContent = "Fetch failed (likely CORS or wrong URL). Open DevTools Console for details.";
+				return;
+			}
 
-      const out = await res.json().catch(() => ({}));
+			const out = await res.json().catch(() => ({}));
 
-      if (!res.ok) {
-        statusEl.textContent = out.error || "Failed to load RSVPs.";
-        return;
-      }
+			if (!res.ok) {
+				statusEl.textContent = out.error || "Failed to load RSVPs.";
+				return;
+			}
 
-      lastResults = out.results || [];
-      statusEl.textContent = `Loaded ${lastResults.length} RSVPs.`;
-      exportBtn.disabled = lastResults.length === 0;
+			lastResults = out.results || [];
+			statusEl.textContent = `Loaded ${lastResults.length} RSVPs.`;
+			exportBtn.disabled = lastResults.length === 0;
 
-      rowsEl.innerHTML = lastResults.map(r => `
+			rowsEl.innerHTML = lastResults.map(r => `
         <tr>
           <td>${esc(r.id)}</td>
           <td class="mono">${esc(r.created_at)}</td>
@@ -194,15 +248,16 @@
           <td>${esc(r.notes)}</td>
         </tr>
       `).join("");
-    }
+		}
 
-    loadBtn.addEventListener("click", loadRsvps);
+		loadBtn.addEventListener("click", loadRsvps);
 
-    exportBtn.addEventListener("click", () => {
-      const csv = toCsv(lastResults);
-      const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
-      download(`rsvps-${ts}.csv`, csv);
-    });
-  </script>
+		exportBtn.addEventListener("click", () => {
+			const csv = toCsv(lastResults);
+			const ts = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+			download(`rsvps-${ts}.csv`, csv);
+		});
+	</script>
 </body>
+
 </html>
