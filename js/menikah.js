@@ -47,13 +47,24 @@ function scrollFunction() {
 }
 
 // Preloader
-// Show preloader until user clicks anywhere
+var pageLoaded = false;
+var userClicked = false;
+
+// Wait for full page load
 $(window).on("load", function () {
-  $("body").addClass("preloader-site");
+  pageLoaded = true;
+  checkPreloader();
 });
 
-// Hide preloader only when user clicks
+// Wait for first user click
 $(document).one("click", function () {
-  $(".preloader-wrapper").fadeOut();
-  $("body").removeClass("preloader-site");
+  userClicked = true;
+  checkPreloader();
 });
+
+function checkPreloader() {
+  if (pageLoaded && userClicked) {
+    $(".preloader-wrapper").fadeOut();
+    $("body").removeClass("preloader-site");
+  }
+}
