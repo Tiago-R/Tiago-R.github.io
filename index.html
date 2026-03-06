@@ -47,10 +47,16 @@
   <!-- Begin Preloader -->
   <div class="preloader-wrapper">
     <div class="preloader">
-      <img src="image/favicon.png" alt="Flower" />
+
+      <div class="envelope-container">
+        <input id="flap" type="checkbox">
+        <label class="flap" for="flap"></label>
+        <div class="envelope-back"></div>
+        <div class="card">Thanks!</div>
+        <div class="card-front"></div>
+      </div>
     </div>
   </div>
-  <!-- End Preloader-->
 
   <!--Floating button-->
   <div id="floating-button" class="float">
@@ -91,7 +97,6 @@
       <!-- Begin Hero Content-->
       <div class="hero-body">
         <div class="container has-text-centered">
-          <h1 class="subtitle">Undangan Pernikahan</h1>
           <h2 class="title">Patrícia & Tiago</h2>
           <h4 class="subtitle tempatwaktu">
 
@@ -157,7 +162,7 @@
       </div>
 
       <p class="bodytext" data-aos="fade-up" data-aos-easing="linear">
-        Assalamu'alaikum Warahmatullahi Wabarakatuh.
+        Texto convidados.
         <br />
         Dengan memohon rahmat dan ridha Allah swt,
         <br />
@@ -197,7 +202,7 @@
           <div class="column is-4 has-vertically-aligned-content">
 
             <p class="is-larger has-text-centered">
-            <div class="waktu tanggal-hari has-text-centered">Sexta-feira</div>
+            <div class="waktu tanggal-hari has-text-centered">Horario em vez de dia</div>
             <div class="waktu tanggal-angka has-text-centered">07</div>
             <div class="waktu tanggal-bulan has-text-centered">Agosto 2026</div>
             </p>
@@ -237,6 +242,19 @@
     </section>
     <!-- End Waktu Content -->
 
+    <section class="section-light" id="dresscode">
+      <div class="container">
+        <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
+          <h1 class="title has-text-centered section-title">Dress Code</h1>
+          <p class="tempat is-larger has-text-centered">
+            Formal
+            <br>
+            (Tamu diharapkan mengenakan pakaian formal)
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- Begin Lokasi Section -->
     <section class="section-darker" id="lokasi">
       <div class="container">
@@ -268,6 +286,33 @@
     </section>
     <!-- End Lokasi Content -->
 
+    <section class="section-light" id="Se tiverem duvidas zapzap">
+      <div class="container">
+        <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
+          <h1 class="title has-text-centered section-title">Se tiverem duvidas zapzap</h1>
+          <p class="tempat is-larger has-text-centered">
+            Para tamu yang datang dari luar kota dapat menginap di Quinta Lagus Resort, tempat pernikahan kami.
+            <br>
+            Kami telah menyiapkan beberapa kamar untuk tamu yang ingin menginap di sana. Silakan hubungi kami untuk
+            informasi lebih lanjut.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-darker" id="accommodation">
+      <div class="container">
+        <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
+          <h1 class="title has-text-centered section-title">Accommodation</h1>
+          <p class="tempat is-larger has-text-centered">
+            Para tamu yang datang dari luar kota dapat menginap di Quinta Lagus Resort, tempat pernikahan kami.
+            <br>
+            Kami telah menyiapkan beberapa kamar untuk tamu yang ingin menginap di sana. Silakan hubungi kami untuk
+            informasi lebih lanjut.
+          </p>
+        </div>
+      </div>
+    </section>
 
     <!-- Begin RSVP Content -->
     <section class="section-light rsvp" id="rsvp">
@@ -361,17 +406,7 @@
       <!-- Turnstile script (add once per page, ideally near end of body) -->
       <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-      <p class="h2 subtitle" data-aos="fade-up" data-aos-easing="linear">
-        Kami yang berbahagia,
-        <br>
-        <a class="instagram" :" href="https://instagram.com/patriciacardeira2" target="_blank" alt="Instagram CPW">
-          <i class="fab fa-instagram"></i> @patriciacardeira2
-        </a>
-        &nbsp
-        <a class="instagram" href="https://instagram.com/tiago___rocha" target="_blank" alt="Instagram CPP">
-          <i class="fab fa-instagram"></i> @tiago___rocha
-        </a>
-      </p>
+      
 
     </section>
 
@@ -658,6 +693,8 @@
       setLoading(false);
     }
   });
+
 </script>
+<!-- <script src="js/intro.js"></script> -->
 
 </html>

@@ -47,24 +47,43 @@ function scrollFunction() {
 }
 
 // Preloader
-var pageLoaded = false;
-var userClicked = false;
+var preloaderDismissed = false;
+
+// Ensure envelope starts closed
+document.addEventListener("DOMContentLoaded", function () {
+  var flap = document.getElementById("flap");
+  if (flap) {
+    flap.checked = false;
+  }
+
+  // Bind click event to preloader wrapper
+  var preloaderWrapper = document.querySelector(".preloader-wrapper");
+  if (preloaderWrapper) {
+    preloaderWrapper.addEventListener("click", function handlePreloaderClick() {
+      if (!preloaderDismissed) {
+        preloaderDismissed = true;
+        // Trigger the checkbox to open the envelope
+        var flap = document.getElementById("flap");
+        if (flap) {
+          flap.checked = true;
+        }
+        // Fade out preloader after animation completes
+        setTimeout(function () {
+          $(".preloader-wrapper").fadeOut(500, function () {
+            $("body").removeClass("preloader-site");
+          });
+        }, 600);
+      }
+      preloaderWrapper.removeEventListener("click", handlePreloaderClick);
+    });
+  }
+});
 
 // Wait for full page load
 $(window).on("load", function () {
-  pageLoaded = true;
-  checkPreloader();
-});
-
-// Wait for first user click
-$(document).one("click", function () {
-  userClicked = true;
-  checkPreloader();
+  // Preloader ready
 });
 
 function checkPreloader() {
-  if (pageLoaded && userClicked) {
-    $(".preloader-wrapper").fadeOut();
-    $("body").removeClass("preloader-site");
-  }
+  // Preloader will fade out on click now
 }
