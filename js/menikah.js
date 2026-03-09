@@ -1,6 +1,6 @@
 // Get that hamburger menu cookin' //
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Get all "navbar-burger" elements
   var $navbarBurgers = Array.prototype.slice.call(
     document.querySelectorAll(".navbar-burger"),
@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
   // Check if there are any navbar burgers
   if ($navbarBurgers.length > 0) {
     // Add a click event on each of them
-    $navbarBurgers.forEach(function($el) {
-      $el.addEventListener("click", function() {
+    $navbarBurgers.forEach(function ($el) {
+      $el.addEventListener("click", function () {
         // Get the target from the "data-target" attribute
         var target = $el.dataset.target;
         var $target = document.getElementById(target);
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Smooth Anchor Scrolling
-$(document).on("click", 'a[href^="#"]', function(event) {
+$(document).on("click", 'a[href^="#"]', function (event) {
   event.preventDefault();
   $("html, body").animate(
     {
@@ -34,7 +34,7 @@ $(document).on("click", 'a[href^="#"]', function(event) {
 });
 
 // When the user scrolls down 20px from the top of the document, show the scroll up button
-window.onscroll = function() {
+window.onscroll = function () {
   scrollFunction();
 };
 
@@ -47,36 +47,30 @@ function scrollFunction() {
 }
 
 // Preloader
-var preloaderDismissed = false;
 
 // Ensure envelope starts closed
 document.addEventListener("DOMContentLoaded", function () {
-  var flap = document.getElementById("flap");
-  if (flap) {
-    flap.checked = false;
-  }
+  const flapButton = document.getElementById("flap-button");
+  const flap = document.querySelector(".flap");
+  const card = document.querySelector(".card");
+  const preloader = document.querySelector(".preloader-wrapper");
 
-  // Bind click event to preloader wrapper
-  var preloaderWrapper = document.querySelector(".preloader-wrapper");
-  if (preloaderWrapper) {
-    preloaderWrapper.addEventListener("click", function handlePreloaderClick() {
-      if (!preloaderDismissed) {
-        preloaderDismissed = true;
-        // Trigger the checkbox to open the envelope
-        var flap = document.getElementById("flap");
-        if (flap) {
-          flap.checked = true;
-        }
-        // Fade out preloader after animation completes
-        setTimeout(function () {
-          $(".preloader-wrapper").fadeOut(500, function () {
-            $("body").removeClass("preloader-site");
-          });
-        }, 600);
-      }
-      preloaderWrapper.removeEventListener("click", handlePreloaderClick);
-    });
-  }
+  flapButton.addEventListener("click", () => {
+    setTimeout(() => {
+      preloader.classList.add("hidden");
+    }, 2000);
+
+    // Step 1: Rotate the flap
+    flap.style.transform = "rotateX(180deg)";
+
+    // Step 2: Move the card up after the flap animation completes
+    setTimeout(() => {
+      flap.style.zIndex = "99999991"; // Bring the card to the front
+      card.style.transform = "translateY(-100px)";
+    }, 500); // Delay matches the flap's transition duration
+
+
+  });
 });
 
 // Wait for full page load
