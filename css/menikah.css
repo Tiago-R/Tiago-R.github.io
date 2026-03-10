@@ -524,6 +524,18 @@ body.preloader-site {
   margin: 1rem;
 }
 
+.btn-cta-darker:hover {
+  color: white;
+  background-color: #bf7877;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  border: 2px solid #bf7877;
+  width: 210px;
+  height: 65px;
+  align-items: center;
+  margin: 1rem;
+}
+
 .btn-cta {
   background-color: #c5a4c1;
   width: 210px;
@@ -541,6 +553,18 @@ body.preloader-site {
   width: 210px;
   height: 65px;
   color: black;
+  font-size: 1.2rem;
+  border: 2px solid #fce7fe;
+  border-radius: 10px;
+  align-items: center;
+  margin: 1rem;
+}
+
+.btn-cta-darker {
+  background-color: #c5a4c1;
+  width: 210px;
+  height: 65px;
+  color: white;
   font-size: 1.2rem;
   border: 2px solid #fce7fe;
   border-radius: 10px;
@@ -1036,4 +1060,40 @@ input#flap {
   cursor: pointer;
   border: none;
   background: transparent;
+}
+
+
+.site-footer {
+  background: #9caf88;
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.footer-message {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.footer-names {
+  font-family: "Playfair Display", serif;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.footer-contact a {
+  color: white;
+  text-decoration: none;
+  margin: 0 8px;
+  font-weight: 500;
+}
+
+.footer-contact a:hover {
+  text-decoration: underline;
+}
+
+.footer-copy {
+  margin-top: 25px;
+  font-size: 12px;
+  opacity: 0.7;
 }
