@@ -102,8 +102,10 @@
             Sexta, 07 agosto 2026
             </br>
             Quinta Lagus Resort, Palmela
-
+            </br>
+            14h00
           </h4>
+          <h3 class="subtitlebig">Por favor, confirma a tua presença até 10 de março 🤍</h3>
         </div>
         <!-- Start Countdown -->
         <!-- <div>
@@ -193,7 +195,6 @@
               <p class="is-larger has-text-centered">
                 <img src="./image/arch.png" class="divider has-text-centered">
               <div class="waktu tanggal-hari has-text-centered">Início da Cerimónia</div>
-              <div class="waktu tanggal-bulan has-text-centered">12h00</div>
               </p>
             </div>
 
@@ -337,6 +338,8 @@
         <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
           <h1 class="title has-text-centered section-title">Vai juntar-se a nós? ✨</h1>
           <div class="space40px"></div>
+          <h2 class="title has-text-centered">Preenche o formulário para todos os convidados</h2>
+          <div class="space40px"></div>
           <div class="columns is-centered" data-aos="fade-up" data-aos-easing="linear">
             <div class="column is-8-tablet is-7-desktop is-6-widescreen">
               <div class="box rsvp-box">
@@ -395,7 +398,7 @@
                     <button class="btn-cta-dark" type="submit">
                       Confirmar
                     </button>
-                    <p id="rsvpStatus" class="help rsvp-status" role="status" aria-live="polite"></p>
+                    <p id="rsvpStatus" class="h2 subtitle" role="status" aria-live="polite"></p>
                   </div>
 
                 </form>
@@ -666,7 +669,7 @@
       const out = await res.json().catch(() => ({}));
 
       if (res.ok) {
-        statusEl.textContent = "RSVP recebido. Obrigado!";
+        statusEl.textContent = "Resposta recebida. Obrigado!";
         form.reset();
         if (window.turnstile) { try { window.turnstile.reset(); } catch { } }
       } else {
