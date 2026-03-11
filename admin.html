@@ -6,13 +6,12 @@
   <meta name="theme-color" content="#c5a4c1" />
   <title>RSVP Admin - Patrícia & Tiago</title>
 
-  <!-- Bulma (same as main site) -->
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css" />
   <script src="https://kit.fontawesome.com/2828f7885a.js" crossorigin="anonymous"></script>
 
   <style>
     :root{
-      --accent: #c5a4c1;               /* matches your theme-color */
+      --accent: #c5a4c1;
       --bg: #0f0f14;
       --panel: rgba(255,255,255,0.06);
       --panel-2: rgba(255,255,255,0.09);
@@ -47,7 +46,6 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     }
 
-    /* Inputs */
     .input{
       background: rgba(255,255,255,0.08) !important;
       border-color: rgba(255,255,255,0.18) !important;
@@ -60,7 +58,6 @@
       box-shadow: 0 0 0 0.125em rgba(197,164,193,0.22) !important;
     }
 
-    /* Buttons */
     .button.is-link{
       background-color: rgba(197,164,193,0.26) !important;
       border-color: rgba(197,164,193,0.55) !important;
@@ -78,7 +75,6 @@
       background-color: rgba(255,255,255,0.14) !important;
     }
 
-    /* Tags (Yes/No) */
     .tag.is-yes{
       background: rgba(72,199,142,0.22) !important;
       color: #e6fff3 !important;
@@ -90,7 +86,6 @@
       border: 1px solid rgba(241,70,104,0.38) !important;
     }
 
-    /* Table container */
     .table-container{
       overflow-x: auto;
       border-radius: 14px;
@@ -98,11 +93,6 @@
       background: rgba(255,255,255,0.03);
     }
 
-    /*
-      BULMA TABLE OVERRIDES (force dark)
-      We scope everything to #rsvpTable to avoid affecting other tables.
-      Also we use !important because Bulma sets light backgrounds on cells.
-    */
     #rsvpTable,
     #rsvpTable thead,
     #rsvpTable tbody,
@@ -128,7 +118,6 @@
       vertical-align: top;
     }
 
-    /* Zebra stripes applied to TDs (Bulma often colors td backgrounds) */
     #rsvpTable tbody tr:nth-child(odd) td{
       background-color: rgba(255,255,255,0.04) !important;
     }
@@ -136,15 +125,12 @@
       background-color: rgba(255,255,255,0.06) !important;
     }
 
-    /* Hover: tint with your accent */
     #rsvpTable.table.is-hoverable tbody tr:hover td{
       background-color: rgba(197,164,193,0.18) !important;
     }
 
-    /* Links (just in case) */
     #rsvpTable a{ color: var(--text) !important; text-decoration: underline; }
 
-    /* Small chips */
     .pill{
       display: inline-block;
       padding: 6px 10px;
@@ -161,7 +147,7 @@
   <section class="wrap">
     <div class="container">
       <div class="columns is-centered">
-        <div class="column is-12 is-10-desktop">
+        <div class="column is-12 is-11-desktop">
 
           <div class="cardish">
             <div class="level">
@@ -211,11 +197,11 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Quando</th>
+                    <th>Criado em</th>
+                    <th>Atualizado em</th>
                     <th>Nome</th>
-                    <th>Email</th>
+                    <th>Telefone</th>
                     <th>Presença</th>
-                    <th>Pessoas</th>
                     <th>Notas</th>
                   </tr>
                 </thead>
@@ -234,8 +220,6 @@
   </section>
 
   <script>
-    // Replace with your deployed Worker URL
-    // Example: https://rsvp-worker.yourname.workers.dev/admin/rsvps?limit=400
     const API_ADMIN_URL = "https://wedding.tiagoalfredo-rocha.workers.dev/admin/rsvps?limit=400";
 
     const tokenEl = document.getElementById("token");
@@ -249,22 +233,26 @@
 
     function esc(s) {
       return String(s ?? "").replace(/[&<>"']/g, c => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
       }[c]));
     }
 
     function toCsv(rows) {
-      const header = ["id","created_at","name","email","attending","guests","notes"];
+      const header = ["id","created_at","updated_at","guest_name","phone","attending","notes"];
       const lines = [header.join(",")];
 
       for (const r of rows) {
         const vals = [
           r.id,
           r.created_at,
-          r.name,
-          r.email ?? "",
-          r.attending ? "yes" : "no",
-          r.guests,
+          r.updated_at,
+          r.guest_name ?? "",
+          r.phone ?? "",
+          r.attending ?? "",
           (r.notes ?? "").replace(/\r?\n/g, " ")
         ].map(v => {
           const str = String(v ?? "");
@@ -273,6 +261,7 @@
 
         lines.push(vals.join(","));
       }
+
       return lines.join("\n");
     }
 
@@ -290,6 +279,7 @@
 
     async function loadRsvps() {
       rowsEl.innerHTML = "";
+      summaryEl.textContent = "0 RSVPs";
       statusEl.textContent = "A carregar…";
       exportBtn.disabled = true;
 
@@ -304,7 +294,9 @@
       let res;
       try {
         res = await fetch(API_ADMIN_URL, {
-          headers: { "Authorization": `Bearer ${token}` }
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
         });
       } catch (e) {
         statusEl.textContent = "Falha ao ligar ao servidor (verifique URL/CORS).";
@@ -320,13 +312,13 @@
         return;
       }
 
-      lastResults = out.results || [];
-      const total = lastResults.length;
-      const yesCount = lastResults.filter(r => !!r.attending).length;
-      const noCount  = total - yesCount;
-      const guestSum = lastResults.reduce((acc, r) => acc + Number(r.guests || 0), 0);
+      lastResults = Array.isArray(out.results) ? out.results : [];
 
-      summaryEl.textContent = `${total} RSVPs · ${yesCount} Sim · ${noCount} Não · ${guestSum} pessoas`;
+      const total = lastResults.length;
+      const yesCount = lastResults.filter(r => r.attending === "yes").length;
+      const noCount = lastResults.filter(r => r.attending === "no").length;
+
+      summaryEl.textContent = `${total} RSVPs · ${yesCount} Sim · ${noCount} Não`;
       statusEl.textContent = total ? "Carregado." : "Sem RSVPs ainda.";
       exportBtn.disabled = total === 0;
 
@@ -334,10 +326,12 @@
         <tr>
           <td>${esc(r.id)}</td>
           <td class="mono">${esc(r.created_at)}</td>
-          <td>${esc(r.name)}</td>
-          <td>${esc(r.email)}</td>
-          <td>${r.attending ? '<span class="tag is-yes">Sim</span>' : '<span class="tag is-no">Não</span>'}</td>
-          <td>${esc(r.guests)}</td>
+          <td class="mono">${esc(r.updated_at)}</td>
+          <td>${esc(r.guest_name)}</td>
+          <td>${esc(r.phone)}</td>
+          <td>${r.attending === "yes"
+            ? '<span class="tag is-yes">Sim</span>'
+            : '<span class="tag is-no">Não</span>'}</td>
           <td>${esc(r.notes)}</td>
         </tr>
       `).join("");
@@ -349,7 +343,7 @@
 
     exportBtn.addEventListener("click", () => {
       const csv = toCsv(lastResults);
-      const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
+      const ts = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
       download(`rsvps-${ts}.csv`, csv);
     });
   </script>

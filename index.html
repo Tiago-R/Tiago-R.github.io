@@ -342,73 +342,52 @@
               <div class="box rsvp-box">
                 <form id="rsvpForm" class="rsvp-form" novalidate>
 
-                  <div class="columns is-variable is-4">
-                    <div class="column">
-                      <div class="field">
-                        <label class="label">Nome</label>
-                        <div class="control has-icons-left">
-                          <input class="input" name="name" autocomplete="name" required placeholder="Nome e apelido">
-                          <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
-                        </div>
-                        <p class="help">Como aparece no convite.</p>
+                  <div class="column">
+                    <div class="field">
+                      <label class="label">Nome do convidado</label>
+                      <div class="control has-icons-left">
+                        <select class="input" name="name" required>
+                          <option value="" disabled selected>Escolha o seu nome</option>
+                          <!-- Guest options will be inserted here by JS -->
+                        </select>
+                        <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
                       </div>
                     </div>
 
-                    <div class="column">
-                      <div class="field">
-                        <label class="label">Email (opcional)</label>
-                        <div class="control has-icons-left">
-                          <input class="input" name="email" type="email" autocomplete="email"
-                            placeholder="email@exemplo.com">
-                          <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
-                        </div>
+                    <div class="field">
+                      <label class="label">Telefone</label>
+                      <div class="control has-icons-left">
+                        <input class="input" name="phone" type="tel" autocomplete="tel" required
+                          placeholder="Número de telefone">
+                        <span class="icon is-small is-left"><i class="fas fa-phone"></i></span>
                       </div>
+                      <p class="help">Contacto para confirmação.</p>
                     </div>
-                  </div>
 
-                  <div class="columns is-variable is-4">
-                    <div class="column">
-                      <div class="field">
-                        <label class="label">Vai conseguir estar presente?</label>
-                        <div class="control">
-                          <div class="buttons has-addons rsvp-attendance" role="radiogroup" aria-label="Presença">
-                            <label class="button is-rounded is-light">
-                              <input type="radio" name="attending" value="yes" checked>
-                              <span>Sim</span>
-                            </label>
-                            <label class="button is-rounded is-light">
-                              <input type="radio" name="attending" value="no">
-                              <span>Não</span>
-                            </label>
-                          </div>
-                        </div>
+                    <div class="field">
+                      <label class="label">Vai estar presente?</label>
+                      <div class="control">
+                        <select class="input" name="attending" required>
+                          <option value="" disabled selected>Selecione uma opção</option>
+                          <option value="yes">Sim</option>
+                          <option value="no">Não</option>
+                        </select>
                       </div>
                     </div>
 
-                    <div class="column">
-                      <div class="field">
-                        <label class="label">Número de pessoas</label>
-                        <div class="control rsvp-stepper">
-                          <input class="input" name="guests" type="number" min="1" max="10" value="1"
-                            inputmode="numeric">
-                        </div>
-                        <p class="help">Inclua-se a si. Máximo 10.</p>
+                    <div class="field">
+                      <label class="label">Restrições Alimentares</label>
+                      <div class="control">
+                        <textarea class="textarea" name="notes" rows="3" required
+                          placeholder="Grávidas, Vegetarianos, Veganos, Alergias, Intolerâncias"></textarea>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="field">
-                    <label class="label">Notas (opcional)</label>
-                    <div class="control">
-                      <textarea class="textarea" name="notes" rows="3"
-                        placeholder="Restrições alimentares, alergias, nome do +1, etc."></textarea>
-                    </div>
-                  </div>
-
-                  <!-- Turnstile -->
-                  <div class="field">
-                    <div class="control">
-                      <div class="cf-turnstile" data-sitekey="0x4AAAAAACiq7tYj_Nr9AyCB"></div>
+                    <!-- Turnstile -->
+                    <div class="field has-text-centered">
+                      <div class="control is-flex is-justify-content-center">
+                        <div class="cf-turnstile" data-sitekey="0x4AAAAAACiq7tYj_Nr9AyCB"></div>
+                      </div>
                     </div>
                   </div>
 
@@ -623,23 +602,21 @@
   const form = document.getElementById("rsvpForm");
   const statusEl = document.getElementById("rsvpStatus");
 
-  const guestsInput = form.querySelector("input[name='guests']");
-  const submitBtn = form.querySelector(".rsvp-submit");
-
-  // Stepper buttons
-  form.querySelectorAll("[data-step]").forEach((b) => {
-    b.addEventListener("click", () => {
-      const delta = Number(b.dataset.step || 0);
-      const v = Number(guestsInput.value || 1);
-      const next = Math.min(10, Math.max(1, v + delta));
-      guestsInput.value = String(next);
+  // Populate guest dropdown from CSV
+  fetch('Convidados.csv')
+    .then(res => res.text())
+    .then(csv => {
+      const lines = csv.trim().split('\n').slice(1); // skip header
+      const select = form.querySelector("select[name='name']");
+      lines.forEach(line => {
+        const [nome, apelido] = line.split(',');
+        const value = `${nome} ${apelido}`.trim();
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
     });
-  });
-
-  function setLoading(loading) {
-    submitBtn.disabled = loading;
-    submitBtn.classList.toggle("is-loading", loading);
-  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -647,36 +624,38 @@
 
     const data = new FormData(form);
 
-    // Honeypot: if filled, pretend success
-    if ((data.get("company") || "").toString().trim()) {
-      statusEl.textContent = "Obrigado!";
-      form.reset();
+    // Validate all fields
+    if (!data.get("name")) {
+      statusEl.textContent = "Por favor, escolha o seu nome.";
+      return;
+    }
+    if (!data.get("phone") || !/^\d{9,}$/.test(data.get("phone"))) {
+      statusEl.textContent = "Por favor, indique um número de telefone válido.";
+      return;
+    }
+    if (!data.get("attending")) {
+      statusEl.textContent = "Por favor, selecione presença.";
+      return;
+    }
+    if (!data.get("notes") || !data.get("notes").toString().trim()) {
+      statusEl.textContent = "Por favor, indique restrições alimentares ou escreva 'Nenhuma'.";
       return;
     }
 
-    const attending = data.get("attending") === "yes";
     const turnstileToken = data.get("cf-turnstile-response");
-
-    const payload = {
-      name: data.get("name"),
-      email: data.get("email"),
-      attending,
-      guests: Number(data.get("guests") || 1),
-      notes: data.get("notes"),
-      turnstileToken
-    };
-
-    if (!payload.name || !payload.name.toString().trim()) {
-      statusEl.textContent = "Por favor, indique o seu nome.";
-      return;
-    }
-
     if (!turnstileToken) {
       statusEl.textContent = "Por favor, complete a verificação.";
       return;
     }
 
-    setLoading(true);
+    const payload = {
+      name: data.get("name"),
+      phone: data.get("phone"),
+      attending: data.get("attending") === "yes",
+      notes: data.get("notes"),
+      turnstileToken
+    };
+
     try {
       const res = await fetch(API_SUBMIT_URL, {
         method: "POST",
@@ -697,8 +676,6 @@
     } catch (err) {
       statusEl.textContent = "Erro de rede. Tente novamente.";
       if (window.turnstile) { try { window.turnstile.reset(); } catch { } }
-    } finally {
-      setLoading(false);
     }
   });
 
