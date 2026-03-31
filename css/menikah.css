@@ -794,7 +794,11 @@ body.preloader-site {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 30px;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAhUlEQVRIie2U0QmAMAxEE3EMcRIdQAdxUXGSDPL8ESmlasUWKfR9hssduY+I/AWwAWsqXWgRgK+6xhPPgLkLPODpDJhcT/UCTES6iAPvMFXtrwIeK4lBVU/f5k6YguwBbWjonviGUMXlV1QDakCpAcDw1ggYQ/Ps79q/YBER+2J+eFTi2QH5gHBCJs9nEQAAAABJRU5ErkJggg==);
+  background-image: url(../image/date.png);
+-webkit-mask: url("../image/date.png") center / 30px no-repeat;
+mask: url("../image/date.png") center / 30px no-repeat;
+background-color: #fff;
+background-image: none;
 }
 
 .option-btn.open:after {
