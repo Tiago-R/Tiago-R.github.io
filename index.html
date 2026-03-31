@@ -43,19 +43,29 @@
   <!-- <script async defer src="https://buttons.github.io/buttons.js"></script> -->
 </head>
 
-<body>
+<body class="preloader-site">
   <!-- Begin Preloader -->
-  <!-- <div class="preloader-wrapper">
-    <div class="preloader">
-      <div class="<envelope-container>">
-        <button id="flap-button"></button>
-        <div class="flap"></div>
-        <div class="envelope-back"></div>
-        <div class="card">Estão convidados!</div>
-        <div class="card-front"></div>
+  <div id="introOverlay" class="preloader-wrapper" aria-live="polite">
+    <div id="envelopeScene" class="envelope-preloader" role="button" tabindex="0" aria-label="Abrir convite"
+      title="Clique para abrir">
+      <div class="envelope-stage" aria-hidden="true">
+        <div class="envelope-panel envelope-panel-back"></div>
+        <!-- <div class="envelope-letter">
+          <p class="envelope-letter-title">Patrícia & Tiago</p>
+          <p class="envelope-letter-subtitle">07 agosto 2026</p>
+        </div> -->
+        <div class="envelope-panel envelope-panel-left"></div>
+        <div class="envelope-panel envelope-panel-right"></div>
+        <div class="envelope-panel envelope-panel-bottom"></div>
+        <div class="envelope-panel envelope-panel-flap"></div>
       </div>
+      <button id="flap-button" class="envelope-seal" type="button" aria-label="Abrir envelope">
+        <span class="envelope-seal-mark">PT</span>
+      </button>
+      <p id="introText" class="preloader-title">Convite de Casamento</p>
+      <p id="hintText" class="preloader-hint">Clique no selo para abrir</p>
     </div>
-  </div> -->
+  </div>
 
   <!--Floating button-->
   <div id="floating-button" class="float">
@@ -476,6 +486,7 @@
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="js/menikah.js"></script>
+  <script src="js/intro.js"></script>
   <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
   <script>
