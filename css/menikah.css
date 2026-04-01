@@ -1234,8 +1234,8 @@ input#flap {
   left: 50%;
   top: 58%;
   transform: translate(-50%, -50%);
-  width: clamp(138px, 20vmin, 276px);
-  height: clamp(138px, 20vmin, 276px);
+  width: clamp(276px, 40vmin, 552px);
+  height: clamp(276px, 40vmin, 552px);
   border: none;
   border-radius: 50%;
   outline: none;
@@ -1328,8 +1328,8 @@ input#flap {
 
   .envelope-seal {
     top: 60%;
-    width: clamp(132px, 31vmin, 228px);
-    height: clamp(132px, 31vmin, 228px);
+    width: clamp(264px, 62vmin, 456px);
+    height: clamp(264px, 62vmin, 456px);
   }
 
   .preloader-title {
