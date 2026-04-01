@@ -1321,6 +1321,16 @@ input#flap {
 }
 
 @media (max-width: 720px) {
+  .envelope-stage {
+    inset: auto;
+    left: 50%;
+    top: 52%;
+    width: min(92vw, 560px);
+    aspect-ratio: 1.58 / 1;
+    height: auto;
+    transform: translate(-50%, -50%);
+  }
+
   .envelope-letter {
     width: 88vw;
     height: 70vh;
@@ -1328,9 +1338,9 @@ input#flap {
   }
 
   .envelope-seal {
-    top: 60%;
-    width: clamp(264px, 62vmin, 456px);
-    height: clamp(264px, 62vmin, 456px);
+    top: 56%;
+    width: clamp(220px, 52vmin, 360px);
+    height: clamp(220px, 52vmin, 360px);
   }
 
   .preloader-title {
