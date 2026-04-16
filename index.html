@@ -642,10 +642,6 @@
       statusEl.textContent = "Por favor, escolha o seu nome.";
       return;
     }
-    if (!data.get("phone") || !/^\d{9,}$/.test(data.get("phone"))) {
-      statusEl.textContent = "Por favor, indique um número de telefone válido.";
-      return;
-    }
     if (!data.get("attending")) {
       statusEl.textContent = "Por favor, selecione presença.";
       return;
